@@ -18,21 +18,21 @@ class RafDataset(data.Dataset):
         name_c = 0
         label_c = 1
         if phase == 'train':
-            dataset = df[df[name_c].str.startswith('train')]
+            dataset = df[df[name_c].str.startswith('Training')]
         else:
-            df = pd.read_csv(os.path.join(self.raf_path, 'EmoLabel/list_patition_label.txt'), sep=' ', header=None)
-            dataset = df[df[name_c].str.startswith('test')]
+            df = pd.read_csv(os.path.join(self.raf_path, 'EmoLabel/ferEmoLabellist.txt'), sep=' ', header=None)
+            dataset = df[df[name_c].str.startswith('Test')]
             
         self.label = dataset.iloc[:, label_c].values - 1
         images_names = dataset.iloc[:, name_c].values
         self.aug_func = [flip_image, add_g]
         self.file_paths = []
-        self.clean = (args.label_path == 'list_patition_label.txt')
+        self.clean = (args.label_path == 'ferEmoLabellist.txt')
         
         for f in images_names:
             f = f.split(".")[0]
-            f += '_aligned.jpg'
-            file_name = os.path.join(self.raf_path, 'Image/aligned', f)
+            f += '.jpg'
+            file_name = os.path.join(self.raf_path, 'Images', f)
             self.file_paths.append(file_name)
 
 
