@@ -169,14 +169,26 @@ def main():
     scheduler = torch.optim.lr_scheduler.ExponentialLR(optimizer, gamma=0.9)
 
     
+    best_acc = 0
    
     
     
     for i in range(1, args.epochs + 1):
         train_acc, train_loss = train(args, model, train_loader, optimizer, scheduler, device)
         test_acc, test_loss = test(model, test_loader, device)
-        with open('rebuttal_50_noise_'+str(args.label_path)+'.txt', 'a') as f:
-            f.write(str(i)+'_'+str(test_acc)+'\n')
+
+        best_acc = max(test_acc,best_acc)
+        if test_acc > 0.6 and test_acc == best_acc:
+            torch.save({'iter': i,
+                        'model_state_dict': model.state_dict(),
+                        'optimizer_state_dict': optimizer.state_dict(),},
+                        os.path.join('checkpoints', "fer2013_epoch"+str(i)+"_acc"+str(test_acc)+".pth"))
+            
+            print('Model saved.')
+
+
+            with open('rebuttal_50_noise_'+str(args.label_path)+'.txt', 'a') as f:
+                 f.write(str(i)+'_'+str(test_acc)+'\n')
 
 
 
