@@ -25,7 +25,7 @@ from loss import ACLoss
 
 parser = argparse.ArgumentParser()
 parser.add_argument('--raf_path', type=str, default='/content/drive/MyDrive/Final Project/Databases/fer-2013', help='raf_dataset_path')
-parser.add_argument('--resnet50_path', type=str, default='=/content/FER-NN-EAC/model/resnet50_ft_weight.pkl', help='pretrained_backbone_path')
+parser.add_argument('--resnet50_path', type=str, default='/content/FER-NN-EAC/model/resnet50_ft_weight.pkl', help='pretrained_backbone_path')
 parser.add_argument('--label_path', type=str, default='ferEmoLabellist.txt', help='label_path')
 parser.add_argument('--workers', type=int, default=4, help='number of workers')
 parser.add_argument('--batch_size', type=int, default=256, help='batch_size')
