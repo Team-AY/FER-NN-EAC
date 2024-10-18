@@ -177,14 +177,15 @@ def main():
         train_acc, train_loss = train(args, model, train_loader, optimizer, scheduler, device)
         test_acc, test_loss = test(model, test_loader, device)
 
-        best_acc = max(test_acc,best_acc)
+        best_acc = max(test_acc, best_acc)
         if test_acc > 0.6 and test_acc == best_acc:
+            checkpoint_dir = 'checkpoints'
+            if not os.path.exists(checkpoint_dir):
+                os.makedirs(checkpoint_dir)
             torch.save({'iter': i,
                         'model_state_dict': model.state_dict(),
                         'optimizer_state_dict': optimizer.state_dict(),},
-                        os.path.join('checkpoints', "fer2013_epoch"+str(i)+"_acc"+str(test_acc)+".pth"))
-            
-            print('Model saved.')
+                        os.path.join(checkpoint_dir, "fer2013_epoch"+str(i)+"_acc"+str(test_acc)+".pth"))
 
 
             with open('rebuttal_50_noise_'+str(args.label_path)+'.txt', 'a') as f:
